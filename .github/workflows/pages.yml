@@ -1,12 +1,7 @@
 # Simple workflow for deploying static content to GitHub Pages
 name: Deploy benchmark page to Pages
 
-on:
-  # Triggers the workflow when a run of the "Benchmark CI" workflow completes successfully
-  workflow_run:
-    workflows: [Generate plots and update docs]
-    types:
-      - completed
+on: [push]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -29,7 +24,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
