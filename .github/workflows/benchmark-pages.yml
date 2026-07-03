@@ -36,7 +36,7 @@ jobs:
           version: "current"
 
       - name: Generate Scribble 
-        run: raco scribble --htmls results.scribl
+        run: raco scribble --htmls benchmarks/results.scribl
 
       - name: Setup Pages
         uses: actions/configure-pages@v6
