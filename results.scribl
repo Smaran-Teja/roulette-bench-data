@@ -7,8 +7,7 @@
           plot/no-gui
           plot/utils
           scribble/base
-          racket/date
-          "../extra/grid.rkt")
+          racket/date)
 
 @title{Benchmarking results summary}
 @margin-note{These plots were generated on @(date->string (current-date))}
@@ -169,12 +168,30 @@ Racket's @tt{plot} library from the raw benchmark data in the @tt{data/} directo
 @(single-metric-section "total-size" 'total-size
                         "Total Size for ~a" "Total Size" "purple")
 
+@;; ---------------------------------------------------------------------------
+@;; Other plots. Every .rkt file in extra/ is assumed to provide an identifier
+@;; `out' whose value is a plot (a renderable element). We enumerate those
+@;; files, dynamically require `out' from each, and display them in name order.
+@;; ---------------------------------------------------------------------------
+
+@(define extra-dir "extra")
+
+@(define (extra-rkt-files)
+   (if (directory-exists? extra-dir)
+       (sort
+        (for/list ([p (in-list (directory-list extra-dir))]
+                   #:when (regexp-match? #rx"\\.rkt$" (path->string p)))
+          (path->string p))
+        string<?)
+       '()))
+
+@(define (other-plots-section)
+   (append*
+    (for/list ([filename (in-list (extra-rkt-files))])
+      (list
+       @bold{@(stem filename)}
+       (linebreak)
+       (centered (dynamic-require (build-path extra-dir filename) 'out))))))
+
 @section{Other plots}
-
-@bold{gtp-n-grid-2}
-
-The performance lattice for the @tt{2x2} grid benchmark
-(@tt{gtp-n-grid-2}), produced by @tt{cost-lattice} in @tt{extra/grid.rkt}:
-
-@linebreak[]
-@centered[gtp-n-grid-2]
+@(other-plots-section)
