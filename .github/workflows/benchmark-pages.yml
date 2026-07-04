@@ -37,7 +37,7 @@ jobs:
           version: "current"
 
       - name: Generate Scribble
-        run: raco scribble --htmls benchmarks/results.scribl
+        run: cd benchmarks; raco scribble --htmls results.scribl; cd ..
 
       - name: Stage site
         run: |
