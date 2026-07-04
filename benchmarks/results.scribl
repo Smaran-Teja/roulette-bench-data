@@ -27,8 +27,8 @@ Racket's @tt{plot} library from the raw benchmark data in the @tt{data/} directo
 @;; chronological order, we can sort the run directories by name.
 @;; ---------------------------------------------------------------------------
 
-@(define data-dir "benchmarks/data")
-@(define plots-dir "benchmarks/plots")
+@(define data-dir "data")
+@(define plots-dir "plots")
 
 @(define (run-dirs)
    (if (directory-exists? data-dir)
