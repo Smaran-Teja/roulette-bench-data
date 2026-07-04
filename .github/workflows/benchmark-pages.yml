@@ -4,6 +4,8 @@ name: Deploy Pages
 
 on:
   push:
+    branches:
+      - main
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -13,11 +15,11 @@ permissions:
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+# Allow only one concurrent deployment. Cancel superseded runs so that rapid
+# pushes don't race each other into "Deployment failed, try again later".
 concurrency:
   group: "pages"
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   # Single deploy job since we're just deploying
@@ -39,3 +41,8 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
+        with:
+          # Tolerate more transient status-polling errors from the Pages backend
+          # (default is 10) to ride out intermittent "try again later" failures.
+          error_count: 30
+          timeout: 900000
