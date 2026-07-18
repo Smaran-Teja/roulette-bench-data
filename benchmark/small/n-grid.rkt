@@ -1,5 +1,6 @@
 #lang roulette/example/disrupt
-(provide small-n-grid)
+(require "../benchmarking.rkt")
+(provide main)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; grid
 
@@ -24,4 +25,8 @@
       (flip 0.4)))
 
 
-(define (small-n-grid n) (query (make-grid n)))
+(define (main) (benchmark (query (make-grid 40))))
+
+
+(module+ main
+  (main))

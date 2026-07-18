@@ -2,8 +2,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; bitvector
 
-(require rosette/lib/destruct)
-(provide scaling-hardware)
+(require rosette/lib/destruct
+         "../benchmarking.rkt")
+
+(provide scaling-hardware main)
 
 (define (natural->bv k size)
   (cond
@@ -115,9 +117,16 @@
 (define MEMORY-SIZE 2)
 (define BIT-WIDTH 2)
 
-(define (main bw n fuel)
+(define (main* bw n fuel)
   (set! BIT-WIDTH bw)
   (read-total ((tri n) fuel (blank-memory))))
 
 ;; scale all three arguments to main from a single number
-(define (scaling-hardware k) (query (main k (+ 1 k) (+ 2 k))))
+(define (scaling-hardware k) (query (main* k (+ 1 k) (+ 2 k))))
+
+
+(define (main) (scale scaling-hardware (1 2 3 4 5 6 7)))
+
+
+(module+ main
+  (main))

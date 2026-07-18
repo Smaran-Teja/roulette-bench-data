@@ -1,5 +1,6 @@
 #lang roulette/example/disrupt
-(provide scaling-network)
+(require "../benchmarking.rkt")
+(provide main)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; bitvectors
@@ -68,5 +69,11 @@
   (for/fold ([acc (bv #b1111 SIZE)])
             ([_ (in-range iters)])
     (diamond acc)))
+
+(define (main) (scale scaling-network (1 2 3 4 5 6 7 8)))
+
+
+(module+ main
+  (main))
 
 
